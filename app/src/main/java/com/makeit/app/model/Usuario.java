@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
@@ -24,6 +26,14 @@ public class Usuario {
 
     @Column(name = "hora_aviso")
     private LocalTime horaAviso;
+
+    @ManyToMany
+    @JoinTable(
+            name = "usuarios_categorias",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private Set<Categoria> categoriasPreferidas = new HashSet<>();
 
     @Column(name = "fecha_registro", nullable = false, updatable = false)
     private LocalDateTime fechaRegistro;
@@ -73,6 +83,14 @@ public class Usuario {
 
     public void setHoraAviso(LocalTime horaAviso) {
         this.horaAviso = horaAviso;
+    }
+
+    public Set<Categoria> getCategoriasPreferidas() {
+        return categoriasPreferidas;
+    }
+
+    public void setCategoriasPreferidas(Set<Categoria> categoriasPreferidas) {
+        this.categoriasPreferidas = categoriasPreferidas;
     }
 
     public LocalDateTime getFechaRegistro() {

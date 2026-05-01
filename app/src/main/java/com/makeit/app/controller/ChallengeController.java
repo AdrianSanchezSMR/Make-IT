@@ -1,0 +1,28 @@
+package com.makeit.app.controller;
+
+import com.makeit.app.dto.challenge.ChallengeResponse;
+import com.makeit.app.dto.challenge.CheckInResponse;
+import com.makeit.app.service.ChallengeService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/challenges")
+public class ChallengeController {
+
+    private final ChallengeService challengeService;
+
+    public ChallengeController(ChallengeService challengeService) {
+        this.challengeService = challengeService;
+    }
+
+    @GetMapping("/today")
+    public ChallengeResponse getTodayChallenge(@AuthenticationPrincipal String username) {
+        return challengeService.getTodayChallenge(username);
+    }
+
+    @PutMapping("/{id}/checkin")
+    public CheckInResponse checkIn(@AuthenticationPrincipal String username, @PathVariable("id") Long challengeId) {
+        return challengeService.checkInTodayChallenge(username, challengeId);
+    }
+}

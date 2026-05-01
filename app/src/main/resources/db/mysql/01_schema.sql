@@ -51,3 +51,17 @@ CREATE TABLE IF NOT EXISTS progreso_diario (
     CONSTRAINT uq_progreso_usuario_reto_fecha
         UNIQUE (usuario_id, reto_catalogo_id, fecha)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS usuarios_categorias (
+    usuario_id BIGINT UNSIGNED NOT NULL,
+    categoria_id BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (usuario_id, categoria_id),
+    CONSTRAINT fk_usuarios_categorias_usuario
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_usuarios_categorias_categoria
+        FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
